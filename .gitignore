@@ -1,11 +1,9 @@
-build/*
-bundle/*
-jit
-generated
 *.o
 *.luvit
 *.*~
-options.gypi
 *.xcodeproj
 out/
 *.swp
+CMakeCache.txt
+CMakeFiles/*
+src/core/src/luvit_exports.c
