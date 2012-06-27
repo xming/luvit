@@ -32,11 +32,11 @@
  * too easily to accidently pull in an older version of OpenSSL on random platforms with
  * weird include paths.
  */
-#if !USE_SYSTEM_OPENSSL
-#if OPENSSL_VERSION_NUMBER != LUVIT_OPENSSL_VERSION_NUMBER
-#error Invalid OpenSSL version number. Busted Include Paths?
-#endif
-#endif
+//#if !USE_SYSTEM_OPENSSL
+//#if OPENSSL_VERSION_NUMBER != LUVIT_OPENSSL_VERSION_NUMBER
+//#error Invalid OpenSSL version number. Busted Include Paths?
+//#endif
+//#endif
 
 #define getSC(L) luvit__lua_tls_sc_get(L, 1)
 
