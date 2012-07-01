@@ -48,11 +48,11 @@ macro(luvid_generate_bytecode DIR BYTECODE_SRC)
   if (NOT ${USE_SYSTEM_LUAJIT})
     set(DEPENDS_ON JIT)
   endif()
-  add_custom_command(OUTPUT ${BYTECODE_DIR}/${BYTECODE_SRC}.o
-    COMMAND ${LUAJIT_BIN} -bg ${DIR}/${BYTECODE_SRC}.lua ${BYTECODE_DIR}/${BYTECODE_SRC}.o
+  add_custom_command(OUTPUT ${BYTECODE_DIR}/${BYTECODE_SRC}.c
+    COMMAND ${LUAJIT_BIN} -bg ${DIR}/${BYTECODE_SRC}.lua ${BYTECODE_DIR}/${BYTECODE_SRC}.c
     DEPENDS ${DEPENDS_ON}
   )
-  set(LUVIT_BYTECODE ${LUVIT_BYTECODE} ${BYTECODE_DIR}/${DOTLUA}.o)
+  set(LUVIT_BYTECODE ${LUVIT_BYTECODE} ${BYTECODE_DIR}/${DOTLUA}.c)
   #if (NOT ${USE_SYSTEM_LUAJIT})
   #  add_dependencies(${BYTECODE_DIR}/${BYTECODE_SRC}.o LUAJIT)
   #endif()
