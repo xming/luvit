@@ -152,22 +152,23 @@ if (${USE_BUNDLE})
 
   #including the .lua from modules
   set(LUVIT_LIBS ${LUVIT_LIBS} ${EXTRA_BYTECODE})
-  # Generate luvit_exports.c
-  foreach(LUVITLIB ${LUVIT_LIBS})
-    set (LUVIT_EXPORT_1 "${LUVIT_EXPORT_1}extern const char *luaJIT_BC_${LUVITLIB}[];\n")
-    set (LUVIT_EXPORT_TMP "${LUVIT_EXPORT_TMP}   (size_t)(const char *)luaJIT_BC_${LUVITLIB} +\n")
-  endforeach()
-  string(REGEX REPLACE " \\+\n$" "" LUVIT_EXPORT_2 ${LUVIT_EXPORT_TMP})
-  configure_file(${LUVIT_SRC_DIR}/luvit_exports.c.tmpl ${LUVIT_SRC_DIR}/luvit_exports.c)
+#  # Generate luvit_exports.c
+#  foreach(LUVITLIB ${LUVIT_LIBS})
+#    set (LUVIT_EXPORT_1 "${LUVIT_EXPORT_1}extern const char *luaJIT_BC_${LUVITLIB}[];\n")
+#    set (LUVIT_EXPORT_TMP "${LUVIT_EXPORT_TMP}   (size_t)(const char *)luaJIT_BC_${LUVITLIB} +\n")
+#  endforeach()
+#  string(REGEX REPLACE " \\+\n$" "" LUVIT_EXPORT_2 ${LUVIT_EXPORT_TMP})
+#  configure_file(${LUVIT_SRC_DIR}/luvit_exports.c.tmpl ${LUVIT_SRC_DIR}/luvit_exports.c)
 
   # this is needed for handling bytecodes as objects and not as source
-  set_source_files_properties(
-    ${LUVIT_BYTECODE}
-    PROPERTIES
-    EXTERNAL_OBJECT true
-    GENERATED true
-  )
-  set(LUVIT_BUNDLE_SOURCES ${LUVIT_SRC_DIR}/luvit_exports.c ${LUVIT_BYTECODE})
+#  set_source_files_properties(
+#    ${LUVIT_BYTECODE}
+#    PROPERTIES
+#    EXTERNAL_OBJECT true
+#    GENERATED true
+#  )
+#  set(LUVIT_BUNDLE_SOURCES ${LUVIT_SRC_DIR}/luvit_exports.c ${LUVIT_BYTECODE})
+  set(LUVIT_BUNDLE_SOURCES ${LUVIT_BYTECODE})
 endif ()
 
 add_library(luvit-lib ${LUVIT_SRC})
