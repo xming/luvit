@@ -43,8 +43,14 @@ option(USE_SYSTEM_LUAJIT "Use system luajit" 1)
 # finding libraries #
 #####################
 
-### rt ###
-set(LIBS ${LIBS} rt)
+### platform libs ###
+if(WIN32)
+  set(LUTVIT_PLATFORM_LIBS ${LUTVIT_PLATFORM_LIBS} ws2_32 psapi iphlpapi)
+  add_definitions(-DWIN32)
+  add_definitions(-D_WIN32)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(LUTVIT_PLATFORM_LIBS ${LUTVIT_PLATFORM_LIBS} rt m dl)
+endif()
 
 ### threads ###
 find_package(Threads REQUIRED)
@@ -165,9 +171,11 @@ if (${USE_BUNDLE})
 endif ()
 
 add_library(luvit-lib ${LUVIT_SRC})
-add_executable(luvit ${LUVIT_SRC_DIR}/luvit_main.c ${LUVIT_BUNDLE_SOURCES})
-target_link_libraries(luvit luvit-lib m dl)
+add_executable(luvit ${LUVIT_BUNDLE_SOURCES} ${LUVIT_SRC_DIR}/luvit_main.c)
+target_link_libraries(luvit luvit-lib ${LUTVIT_PLATFORM_LIBS})
 target_link_libraries(luvit-lib ${LIBS})
+message(${LUTVIT_PLATFORM_LIBS})
+
 if (LUVIT_EXTERNAL_DEPS)
   add_dependencies(luvit ${LUVIT_EXTERNAL_DEPS})
 endif()

@@ -8,6 +8,11 @@ macro(luavit_add_ext TARGET_NAME TYPE DIR URL MD5 LINK_LIB INCLUDE_DIR)
     INSTALL_COMMAND ""
   )
   ExternalProject_Get_Property(${TARGET_NAME} SOURCE_DIR)
+  ExternalProject_Get_Property(${TARGET_NAME} BINARY_DIR)
+  include_directories(${SOURCE_DIR}/${INCLUDE_DIR})
+  set(LIBS ${BINARY_DIR}/${CMAKE_CFG_INTDIR}/${LINK_LIB} ${LIBS})
+  set(LUVIT_EXTERNAL_DEPS ${LUVIT_EXTERNAL_DEPS} ${MOD_NAME})
+
   if(EXISTS ${CMAKE_SOURCE_DIR}/src/${TYPE}/${DIR}/CMakeLists-${TARGET_NAME}.txt)
     ExternalProject_Add_Step(${TARGET_NAME} AddCmake
       COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/src/${TYPE}/${DIR}/CMakeLists-${TARGET_NAME}.txt ${SOURCE_DIR}/CMakeLists.txt
@@ -16,9 +21,6 @@ macro(luavit_add_ext TARGET_NAME TYPE DIR URL MD5 LINK_LIB INCLUDE_DIR)
     )
   endif()
 
-  include_directories(${SOURCE_DIR}/${INCLUDE_DIR})
-  set(LIBS ${SOURCE_DIR}/${LINK_LIB} ${LIBS})
-  set(LUVIT_EXTERNAL_DEPS ${LUVIT_EXTERNAL_DEPS} ${MOD_NAME})
   if (NOT ${USE_SYSTEM_LUAJIT})
     add_dependencies(${TARGET_NAME} LUAJIT)
   endif()

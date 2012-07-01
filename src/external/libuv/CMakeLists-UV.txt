@@ -56,7 +56,7 @@ src/ares/inet_ntop.c
 src/uv-common.c
 )
 
-file(GLOB UV_WIN32_SRCS src/windows/*.c)
+file(GLOB UV_WIN32_SRCS src/win/*.c)
 set(UV_WIN32_SRCS ${UV_WIN32_SRCS}
 src/ares/windows_port.c
 src/ares/ares_platform.c
@@ -86,13 +86,11 @@ if(WIN32)
     include_directories(src/ares/config_win32)
     add_definitions(-D_WIN32_WINNT=0x0600 -DEIO_STACKSIZE=262144 -D_GNU_SOURCE)
     set(UV_SRCS ${UV_WIN32_SRCS} ${UV_COMMON_SRCS})
-    set(UV_TESTRUNNER_SRCS test/runner-win.c test/runner-win.h)
     set(UV_LIBS ws2_32 psapi iphlpapi)
 else()
     # POSIX common
     include_directories(src/unix/ev)
     add_definitions(-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DEIO_STACKSIZE=262144)
-    set(UV_TESTRUNNER_SRCS test/runner-unix.c test/runner-unix.h)
 
     # OS specific thingy
     # FIXME: solaris here
