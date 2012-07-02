@@ -11,7 +11,7 @@ macro(luavit_add_ext TARGET_NAME TYPE DIR URL MD5 LINK_LIB INCLUDE_DIR)
   ExternalProject_Get_Property(${TARGET_NAME} BINARY_DIR)
   include_directories(${SOURCE_DIR}/${INCLUDE_DIR})
   set(LIBS ${BINARY_DIR}/${CMAKE_CFG_INTDIR}/${LINK_LIB} ${LIBS})
-  set(LUVIT_EXTERNAL_DEPS ${LUVIT_EXTERNAL_DEPS} ${MOD_NAME})
+  set(LUVIT_EXTERNAL_DEPS ${LUVIT_EXTERNAL_DEPS} ${TARGET_NAME})
 
   if(EXISTS ${CMAKE_SOURCE_DIR}/src/${TYPE}/${DIR}/CMakeLists-${TARGET_NAME}.txt)
     ExternalProject_Add_Step(${TARGET_NAME} AddCmake
