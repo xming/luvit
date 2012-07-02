@@ -45,9 +45,13 @@ option(USE_SYSTEM_LUAJIT "Use system luajit" 1)
 
 ### platform libs ###
 if(WIN32)
-  set(LUTVIT_PLATFORM_LIBS ${LUTVIT_PLATFORM_LIBS} ws2_32 psapi iphlpapi)
+  set(LUTVIT_PLATFORM_LIBS ${LUTVIT_PLATFORM_LIBS} psapi iphlpapi ws2_32)
   add_definitions(-DWIN32)
-  add_definitions(-D_WIN32)
+  #add_definitions(-D_WIN32)
+  set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+
+  #add_definitions(-D_MSC_VER -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
+  add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(LUTVIT_PLATFORM_LIBS ${LUTVIT_PLATFORM_LIBS} rt m dl)
 endif()
@@ -173,12 +177,12 @@ endif ()
 
 add_library(luvit-lib ${LUVIT_SRC})
 add_executable(luvit ${LUVIT_BUNDLE_SOURCES} ${LUVIT_SRC_DIR}/luvit_main.c)
-target_link_libraries(luvit luvit-lib ${LUTVIT_PLATFORM_LIBS})
+target_link_libraries(luvit ${LUTVIT_PLATFORM_LIBS} luvit-lib)
 target_link_libraries(luvit-lib ${LIBS})
-message(${LUTVIT_PLATFORM_LIBS})
 
 if (LUVIT_EXTERNAL_DEPS)
   add_dependencies(luvit ${LUVIT_EXTERNAL_DEPS})
+  message(${LUTVIT_PLATFORM_LIBS})
 endif()
 set_target_properties(
   luvit
